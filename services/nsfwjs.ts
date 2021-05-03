@@ -4,8 +4,10 @@ class NSFWjs {
   model;
   constructor() {
     (async () => {
-      this.model = await nsfwjs.load('/public/nsfw-models/');
-      console.log(this.model);
+      if (typeof window !== 'undefined') {
+        this.model = await nsfwjs.load('http://localhost:3000/nsfw-models/');
+        console.log(this.model);
+      }
     })();
   }
 }
