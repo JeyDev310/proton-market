@@ -1,4 +1,5 @@
 import { ImageContainer, DefaultImage, Image } from './TemplateImage.styled';
+import NSFWImageWrapper from '../NSFWImageWrapper';
 
 type Props = {
   templateImgSrc?: string;
@@ -17,16 +18,26 @@ const TemplateImageChild = ({
   fallbackImgSrc: string;
 }): JSX.Element => {
   if (!templateImgSrc) {
-    return <DefaultImage src={fallbackImgSrc} alt={templateName} />;
+    return (
+      <NSFWImageWrapper
+        id="template-image"
+        src={fallbackImgSrc}
+        alt={templateName}
+        imageStyling={DefaultImage}
+      />
+    );
   }
 
   return (
-    <Image
+    <NSFWImageWrapper
+      id="template-image"
+      alt={templateName}
       src={templateImgSrc}
       onError={(e) => {
         e.currentTarget.onerror = null;
         e.currentTarget.src = fallbackImgSrc;
       }}
+      imageStyling={Image}
     />
   );
 };

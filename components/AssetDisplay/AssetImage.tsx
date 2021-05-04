@@ -1,8 +1,8 @@
 import { SRLWrapper, useLightbox } from 'simple-react-lightbox';
+import { useState } from 'react';
 import { Image } from './AssetDisplay.styled';
 import { IPFS_RESOLVER_IMAGE, RESIZER_IMAGE } from '../../utils/constants';
-import { useEffect, useState } from 'react';
-import nsfw from '../../services/nsfwjs';
+import NSFWImageWrapper from '../NSFWImageWrapper';
 
 const lightboxOptions = {
   thumbnails: {
@@ -29,15 +29,6 @@ const AssetImage = ({
   templateName: string;
   lightbox?: boolean;
 }): JSX.Element => {
-  useEffect(() => {
-    (async () => {
-      if (image) {
-        const predictions = await nsfw.model.classify(image);
-        console.log('PREDICTIONS: ', predictions);
-      }
-    })();
-  }, [image]);
-
   const resizedSrc = `${RESIZER_IMAGE}${IPFS_RESOLVER_IMAGE}${image}`;
   const highResSrc = `${IPFS_RESOLVER_IMAGE}${image}`;
 
@@ -53,13 +44,16 @@ const AssetImage = ({
 
   return (
     <div>
-      <Image
+      <NSFWImageWrapper
+        id="asset-detail-image"
+        height="412px"
+        width="412px"
         src={src}
         alt={templateName}
         onError={onImageError}
         onClick={onImageClick}
+        imageStyling={Image}
       />
-
       {lightbox && (
         <SRLWrapper options={lightboxOptions} elements={lightboxElements} />
       )}
