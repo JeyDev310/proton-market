@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ImageStyled, BlockedImage } from './NSFWImageWrapper.styled';
+import {
+  ImageStyled,
+  BlockedImage,
+  NSFWButton,
+} from './NSFWImageWrapper.styled';
 import nsfw from '../../services/nsfwjs';
 
 type Props = {
@@ -15,25 +19,34 @@ type Props = {
 
 const NSFWImageWrapper = ({
   src,
+  id,
   imageStyling: Image,
   ...props
 }: Props): JSX.Element => {
   const [isNSFW, setIsNSFW] = useState<boolean>(null);
   useEffect(() => {
     (async () => {
-      if (src) {
-        const isNSFW = await nsfw.classify('asset-detail-image');
-        console.log('NSFWImageWrapper: ', isNSFW);
+      if (!src.includes('placeholder') && id) {
+        const isNSFW = await nsfw.classify(id);
+        console.log('isNSFW: ', isNSFW, src, id);
         setIsNSFW(isNSFW);
       }
     })();
-  }, [src]);
+  }, [src, id]);
 
   if (isNSFW) {
-    return <BlockedImage {...props} />;
+    return (
+      <BlockedImage onClick={() => setIsNSFW(false)} {...props}>
+        <NSFWButton>Click to see NSFW</NSFWButton>
+      </BlockedImage>
+    );
   }
 
-  return <Image src={src} {...props} />;
+  if (isNSFW === false || src.includes('placeholder')) {
+    return <Image id={id} src={src} {...props} />;
+  }
+
+  return <Image style={{ display: 'none' }} id={id} src={src} {...props} />;
 };
 
 export default NSFWImageWrapper;

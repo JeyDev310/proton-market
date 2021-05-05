@@ -27,6 +27,7 @@ class NSFWjs {
       const img = document.getElementById(id);
       if (img) {
         const predictions = await this.model.classify(img);
+        console.log('PREDICTIONS: ', predictions);
         predictions.forEach((type) => {
           if ((type.className === 'Sexy' ||
           type.className === 'Porn' ||
