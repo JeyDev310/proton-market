@@ -105,9 +105,9 @@ const InitialMint = ({
       <Step>Step 3 of 3</Step>
       <Title>Initial Mint</Title>
       <SubTitle>
-        Now you are ready to mint your NFT. Choose an initial mint amount (first
-        10 are for free). Minting takes a bit of time, so we recommend no more
-        than 50 tokens in your initial mint.
+        Now you are ready to mint your NFT. Choose an initial mint amount below.
+        Minting takes a bit of time, so we recommend no more than 50 tokens in
+        your initial mint.
       </SubTitle>
       <InputField
         inputType="number"

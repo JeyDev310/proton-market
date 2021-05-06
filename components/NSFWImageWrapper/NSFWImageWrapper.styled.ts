@@ -6,13 +6,17 @@ type ImgProps = {
   objectFit?: string;
 };
 
+interface BlockedImageProps extends ImgProps {
+  blurImage: number;
+}
+
 export const ImageStyled = styled.img<ImgProps>`
   width: ${({ width }) => width || '270px'};
   height: ${({ height }) => height || '270px'};
   object-fit: ${({ objectFit }) => objectFit || ''};
 `;
 
-export const BlockedImage = styled.div<ImgProps>`
+export const BlockedImage = styled.div<BlockedImageProps>`
   width: ${({ width }) => width || '270px'};
   height: ${({ height }) => height || '270px'};
   border-radius: 8px;
@@ -20,7 +24,7 @@ export const BlockedImage = styled.div<ImgProps>`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  filter: blur(60px);
+  background-image: url(${({ blurImage }) => `/blur-image-${blurImage}.png`});
 `;
 
 export const NSFWButton = styled.button`

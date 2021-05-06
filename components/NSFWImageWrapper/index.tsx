@@ -5,6 +5,7 @@ import {
   NSFWButton,
 } from './NSFWImageWrapper.styled';
 import nsfw from '../../services/nsfwjs';
+import { getRandomNumberInRange } from '../../utils';
 
 type Props = {
   src: string;
@@ -28,7 +29,6 @@ const NSFWImageWrapper = ({
     (async () => {
       if (!src.includes('placeholder') && id) {
         const isNSFW = await nsfw.classify(id);
-        console.log('isNSFW: ', isNSFW, src, id);
         setIsNSFW(isNSFW);
       }
     })();
@@ -36,7 +36,10 @@ const NSFWImageWrapper = ({
 
   if (isNSFW) {
     return (
-      <BlockedImage onClick={() => setIsNSFW(false)} {...props}>
+      <BlockedImage
+        onClick={() => setIsNSFW(false)}
+        {...props}
+        blurImage={getRandomNumberInRange(1, 4)}>
         <NSFWButton>Click to see NSFW</NSFWButton>
       </BlockedImage>
     );
