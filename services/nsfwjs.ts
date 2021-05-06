@@ -25,6 +25,7 @@ class NSFWjs {
     let nsfw = false;
     try {
       const img = document.getElementById(id);
+      console.log('IMG: ', img);
       if (img) {
         const predictions = await this.model.classify(img);
         console.log('PREDICTIONS: ', predictions);

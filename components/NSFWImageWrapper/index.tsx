@@ -25,10 +25,15 @@ const NSFWImageWrapper = ({
   ...props
 }: Props): JSX.Element => {
   const [isNSFW, setIsNSFW] = useState<boolean>(null);
+  const [blurImageNumber, setBlurImageNumber] = useState<number>(1);
+
   useEffect(() => {
     (async () => {
       if (!src.includes('placeholder') && id) {
         const isNSFW = await nsfw.classify(id);
+        console.log('id: ', id)
+        setBlurImageNumber(getRandomNumberInRange(1, 4));
+        console.log('ISNSFW: ', isNSFW);
         setIsNSFW(isNSFW);
       }
     })();
@@ -37,9 +42,12 @@ const NSFWImageWrapper = ({
   if (isNSFW) {
     return (
       <BlockedImage
-        onClick={() => setIsNSFW(false)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsNSFW(false)
+        }}
         {...props}
-        blurImage={getRandomNumberInRange(1, 4)}>
+        blurImage={blurImageNumber}>
         <NSFWButton>Click to see NSFW</NSFWButton>
       </BlockedImage>
     );
